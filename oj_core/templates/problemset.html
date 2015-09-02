@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+ 
+{% block title %}
+Problem Set
+{% endblock title %}
+
+{% block content %}
+<script src="/static/include/sortTable.js"></script>
+<h3 align='center'>{% for i,ki in pages %}{% if i == curpage %}<span class=red>{{ i }}</span>{% else %}<a href='{% url 'problemset' %}?offset={{ ki }}'>{{ i }}</a>{% endif %}{% if not forloop.last %}&nbsp;{% endif %}{% endfor %}</h3><center><table id='problemset' width='90%'><thead><tr align='center' class='evenrow'><td width='5'></td><td width='100%' colspan='6'><form>Search<input type='text' name='search'><input type='submit' value='GO' ></form></td></tr><tr><td width='100%' colspan='6'><center>说明：输入题号直接进入相应题目，如需搜索含数字的题目，请在关键词前加单引号</center></td></tr><tr align=center class='toprow'><td width='5'><td style="cursor:hand" onclick="sortTable('problemset', 1, 'int');" width=10%><A>Problem ID</A><td width='60%'>Title</td><td width='20%'>Source</td><td style="cursor:hand" onclick="sortTable('problemset', 4, 'int');" width='5%'><A>AC</A></td><td style="cursor:hand" onclick="sortTable('problemset', 5, 'int');" width='5%'><A>Submit</A></td></tr></thead><tbody>{% for i in problemset %}
+<tr><td></td><td align='center'>{{ i.id }}</td><td align='left'><a href='{% url 'problem' i.id %}'>{{ i.name }}</a></td><td align='center'>{{ i.source }}</td><td align='center'><a href='status.php?problem_id=1000&jresult=4'>0</a></td><td align='center'><a href='status.php?problem_id=1000'>0</a></td></tr>
+{% endfor %}</tbody></table>
+{% endblock content %}

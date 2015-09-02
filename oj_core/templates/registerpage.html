@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+ 
+{% block title %}
+Register Page
+{% endblock title %}
+
+{% block content %}
+<big><strong>{{ error }}</strong></big>
+<form method='post'>
+{% csrf_token %}
+{{ form }}
+<input type="submit" value="提交">
+</form>
+{% endblock content %}

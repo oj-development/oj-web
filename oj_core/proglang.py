@@ -1,0 +1,1 @@
+proglang=(("pas","Pascal"),("c","C"),("cpp","C++"))

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+ 
+{% block title %}
+Rank List
+{% endblock title %}
+
+{% block content %}
+<table width=90%><tr><td colspan=3 align=left><form action=>
+				User<input name=user>
+				<input type=submit value=Go>
+			</form></td><td colspan=3 align=right>
+			<a href=ranklist.php?scope=d>Day</a>
+			<a href=ranklist.php?scope=w>Week</a>
+			<a href=ranklist.php?scope=m>Month</a>
+			<a href=ranklist.php?scope=y>Year</a>
+			</td></tr><tr class='toprow'>
+				<td width=5% align=center><b>No.</b>
+				<td width=10% align=center><b>User</b>
+				<td width=55% align=center><b>Nick Name</b>
+				<td width=10% align=center><b>AC</b>
+				<td width=10% align=center><b>Submit</b>
+				<td width=10% align=center><b>Ratio</b></tr>{% for i in ranklist %}<tr><td align=center>{{ ranklist.ranking }}<td align=center><a href='{% url 'userinfo' i.userid %}'>{{ i.username }}</a><td align=center>{{ i.nickname }}<td align=center><a href='{% url 'status' %}?user_id={{ i.userid }}&jresult=4'>{{ i.ac }}</a><td align=center><a href='{% url 'status' %}?user_id={{ i.userid }}'>{{ i.submit }}</a><td align=center>{{ i.ratio }}</tr>{% endfor %}</table></center><center>{% for i,si,ti in pages %}<a href='./ranklist.php?start={{ i }}'>{{ si }}-{{ ti }}</a>&nbsp;{% endfor %}<br></center>		
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+ 
+{% block title %}
+User--{{ username }}
+{% endblock title %}
+
+{% block content %}
+User ID: {{ userid }}<br>
+Username: {{ username }}<br>
+Nickname: {{ nickname }}<br>
+Submit: {{ submit }}<br>
+AC: {{ ac }}<br>
+Solved: {% for i in solved_problems %}<a href='{% url 'problem' i %}'>{{ i }}</a> {% endfor %}
+{% endblock content %}

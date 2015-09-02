@@ -1,0 +1,97 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel=stylesheet href='/static/include/hoj.css' type='text/css'>
+</head>
+<body>
+<center>
+{% include "header.html" %}
+</center>
+<center>
+<div class="notice">{% include "notice.html" %}</div>
+</center>
+</div>
+<title>{% block title %}大视野在线测评·欢迎您{% endblock title %}</title><center>{% block content %}<div style="width:80%; text-align:left;"><h1 style="color:red;">News</h1></div><table width=80%><tr><td><td><font size=big><b>新OJ注意事项</b></font>-<font size=small>[lavendir]</font></tr><tr><td><td><p><span style="font-size: medium">&nbsp;免责声明</span></p>
+<p><span style="font-size: medium">我站的大部分资料来源于网上，由会员提供，除非特别声明，我站并不拥有该资料版权。其他网站媒体未经本站及作者本人同意不得转载，如果无意侵犯了您的权益，请电邮</span><a href="mailto:lydsy2012@163.com"><span style="font-size: medium">lydsy2012@163.com</span></a><span style="font-size: medium">，本站将及时删除,目前所有试题可在</span><a href="http://www.zxytim.com/downloads/BZOJ-collection-2012-03-02.7z"><span style="font-size: medium">http://www.zxytim.com/downloads/BZOJ-collection-2012-03-02.7z</span></a><span style="font-size: medium">看到。&nbsp; 任何会员使用我站资料均只能用于参考，未经原作者同意擅自对作品进行任何侵犯版权的操作所产生的责任，由会员本人承担。 转载或使用我站作品，请与我站或原作者联系。 如发现本网站载有侵犯您著作权的侵权信息，可依法向我们提出警示或索要行为人的注册信息，但应依法提供以下资料： <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1、能够确认的有效的本人身份证明，</span></p>
+<p><span style="font-size: medium">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2、著作权权属证明，</span></p>
+<p><span style="font-size: medium">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3、侵权情况证明。</span></p>
+<p><span style="font-size: medium"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 无法提供或不能完整提供上述资料的，我们将视为您未提出警示或主张。由此而产生的一切法律责任，我们也不予承担。 <br />
+&nbsp; </span></p>
+<p><span style="font-size: medium">========================================================================================================</span></p>
+<p><span style="color: #ff0000"><span style="font-size: medium"><strong>系统支持名单(排名不分先后)(所得款项用于OJ的后续开发，下列用户将成为首批使用者)：<br />
+</strong></span></span></p>
+<p></p>
+<p><span style="color: #ff0000"><span style="font-size: medium">VFleaKing&nbsp; hynuACM&nbsp; txh&nbsp; applepi&nbsp; zcwwzdjn<br />
+csimstu leo lebesgue&nbsp; zzq&nbsp; Accelerator<br />
+Shana yangyue1995 were mato_no1&nbsp; xhm1994 <br />
+weixinding&nbsp; Indeed tsstss123 iscubus&nbsp; gzp95 <br />
+CA72 huyuanming11 dianbei&nbsp; sjynoi&nbsp; ACTheory&nbsp; xyf&nbsp; simoncao Seter <br />
+lirenjue&nbsp; void_rank Nordom0x50</span></span></p>
+<p></p>
+<p><span style="font-size: medium">========================================================================================================</span></p>
+<p><span style="font-size: medium">本OJ架设在Linux服务器上，C/C++用户输出64位整型请使用%lld <br />
+gcc4以上版本编译器头文件检查较为严格，请不要忘记添加&lt;stdio.h&gt;等头文件 <br />
+本OJ目前还在测试阶段，出现的各种问题敬请谅解，欢迎大家在WebBoard中提出意见。 </span></p>
+<p></p>
+<p><span style="font-size: medium"><br />
+&nbsp;<br />
+</span></p></tr><tr><td><td><font size=big><b>Online Judge编译器信息</b></font>-<font size=small>[gaewah]</font></tr><tr><td><td><ul>
+    <li>GCC (Ubuntu/Linaro 4.4.4-14ubuntu5) 4.4.5</li>
+    <li>Free Pascal Compiler version 2.4.0-2 [2010/03/06] for i386</li>
+    <li>Java version &quot;1.6.0_22&quot;</li>
+</ul>
+<table border="1">
+    <tbody>
+        <tr>
+            <td>C:</td>
+            <td><font color="#0000ff">gcc Main.c -o Main -Wall -lm --static -std=c99 -DONLINE_JUDGE</font></td>
+        </tr>
+        <tr>
+            <td>C++:</td>
+            <td><font color="#0000ff">g++ Main.cc -o Main -O2 -Wall -lm --static -DONLINE_JUDGE</font></td>
+        </tr>
+        <tr>
+            <td>Pascal:</td>
+            <td><font color="#0000ff">fpc -Co -Ct -Ci -O2</font></td>
+        </tr>
+        <tr>
+            <td>Java:</td>
+            <td><font color="#0000ff">javac -J-Xms32m -J-Xmx256m Main.java</font> <br />
+            <font color="#ff0000" size="-1">*Java has 2 more seconds and 512M more memory when running and judging.</font></td>
+        </tr>
+    </tbody>
+</table>
+<div style="margin:0 0 20px 0"></div></tr><tr><td><td><font size=big><b>Recently Change List</b></font>-<font size=small>[gaewah]</font></tr><tr><td><td><ul>
+    <li>修复公告的panel在IE浏览器中没有居中的问题 - 2011.4.5</li>
+    <li>彻底删除划词翻译功能 - 2011.4.5</li>
+    <li>修复题目显示页面跳转到题目专有的WebBoard链接错误问题 - 2011.4.5</li>
+    <li>修复首页文件中数据库语句使用错误导致首页News调用失败问题 - 2011.4.5</li>
+    <li>在News显示之前添加红色的News标题 - 2011.4.5</li>
+    <li>测试启用LOGO一枚 - 2011.4.5</li>
+    <li style="color:orange">增加64位系统的必要系统调用至系统限制白名单，解决部分代码无故RE的问题[Specially thanks zhblue] - 2011.4.5</li>
+    <li>修改OJ配置，减少Pending时间 - 2011.4.5</li>
+    <li>修复discuss模块thread页面一个帖子句子过长不自动换行冲出屏幕的问题。 - 2011.4.5</li>
+    <li>修复可以提交不存在的题目的问题 - 2011.4.5</li>
+    <li>修正后台数据文件文件名对应关系，解决近百题无故Output limit exceed问题 - 2011.4.6</li>
+    <li>修改Judge_Client，放宽对空格空行的敏感程度，现在的PE的定义为忽略行尾空格换行符，忽略文件结尾空白字符，其他多余的或者少的空白字符引发的问题 - 2011.4.6</li>
+    <li>添加discuss模块帖子显示的翻页功能，修改默认一页帖数为50 - 2011.4.6</li>
+    <li>修复因语法错误导致的discuss的管理功能失效 - 2011.4.6</li>
+    <li>修正Contest-Header的CSS配色错误 - 2011.4.6</li>
+    <li>修改Online Judge运行机制，将定期检查模式改为提交通知信号模式，进一步减少程序pending时间，减轻服务器负担 - 2011.4.6</li>
+    <li>添加Judged服务保护进程，定期检查Judged服务是否崩溃，保证OJ正常运行 - 2011.4.7</li>
+    <li>修改FPC编译参数为fpc -Co -Ct -Ci，去掉-Cr数组越界检查</li>
+    <li>再修改FPC编译参数为fpc -Co -Ct -Ci -O2，加入O2优化</li>
+</ul>
+====历史修订和详细信息，参阅<a href="http://acm.hust.edu.cn/forum/viewthread.php?tid=29">这里</a>.====</tr></table>{% endblock content %}</center>?<br>
+
+<a href="./"><span class=red>HOME</span></a>
+<a href="javascript:history.go(-1)"><span class=red>Back</span></a>
+
+<hr>
+<center>
+	<div class="footer">{% include "footer.html" %}</div>
+</center>
+</body>
+</html>

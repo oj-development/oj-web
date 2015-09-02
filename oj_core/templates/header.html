@@ -1,0 +1,15 @@
+<div style="width:90%; text-align:left">
+<img src="/static/image/logo.png"/>
+</div>
+<table width=96%> 
+	<tr align="center" class='hd' valign="top">
+				<th><a href="faqs.php">F.A.Qs</a></th>
+		<th><a href="{% url 'index' %}">Home</a></th>
+		<th><a href="./bbs.php">Discuss</a></th>
+		<th><a href="{% url 'problemset' %}">ProblemSet</a></th>
+		<th><a href="{% url 'status' %}">Status</a></th>
+		<th><a href="{% url 'ranklist' %}">Ranklist</a></th>
+		<th><a href="./contest.php">Contest</a></th>
+		<th><a href="{% url 'login' %}">Login</a></th><th><a href="{% url 'registerpage' %}">Register</a></th>		<th><a href="./donation.php"><font color=red>{{ user.username }}</font></a></th>
+	</tr>
+</table>

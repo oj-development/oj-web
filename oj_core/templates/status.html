@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+ 
+{% block title %}
+Submission Status
+{% endblock title %}
+
+{% block content %}
+<table width=90%>
+<tr><td>
+<form id=simform action="status.php" method="get">
+Problem ID:<input type=text size=4 name=problem_id value=''>
+User:<input type=text size=6 name=user_id value=''>
+Language:<select size="1" name="language">
+<option value='-1' selected>All</option><option value=0>C</option><option value=1>C++</option><option value=2>Pascal</option><option value=3>Java</option><option value=4>Ruby</option><option value=5>Bash</option><option value=6>Python</option></select>
+Result:<select size="1" name="jresult">
+<option value='-1' selected>All</option><option value='4'>Accepted</option><option value='5'>Presentation_Error</option><option value='6'>Wrong_Answer</option><option value='7'>Time_Limit_Exceed</option><option value='8'>Memory_Limit_Exceed</option><option value='9'>Output_Limit_Exceed</option><option value='10'>Runtime_Error</option><option value='11'>Compile_Error</option><option value='0'>Pending</option><option value='1'>Pending_Rejudging</option><option value='2'>Compiling</option><option value='3'>Running_&_Judging</option></select></select>
+
+<input type=submit value='Search'></form></td></tr>
+</table>
+<table align=center>
+<tr  class='toprow'>
+<td width="8%">RunID<td width="10%">User<td width="6%">Problem<td width="17%">Result<td width="10%">Memory<td width="8%">Time<td width="6%">Language<td width="10%">Code_Length<td width="17%">Submit_Time</tr>
+{% for i in status_list %}<tr align=center><td>{{ i.id }}<td>{% if i.userid > 0 %}<a href='{% url 'userinfo' i.userid %}'>{{ i.username }}</a>{% else %}{{ i.username }}{% endif %}<td><a href='{% url 'problem' i.problem %}'>{{ i.problem }}</a><td>{{ i.result }}<td>{{ i.memory }} <font color=red>kb</font><td>{{ i.time }} <font color=red>ms</font><td>{{ i.language }}<td>{{ i.code_length }} B<td>{{ i.submit_time }}</tr>{% endfor %}</table>
+[<a href={% url 'status' %}>Top</a>]&nbsp;&nbsp;[<a href={% url 'status' %}?offset={{ prev_offset }}&limit={{ limit }}>Previous Page</a>]&nbsp;&nbsp;[<a href={% url 'status' %}?offset={{ next_offset }}&limit={{ limit }}>Next Page</a>]</center>
+{% endblock content %}
