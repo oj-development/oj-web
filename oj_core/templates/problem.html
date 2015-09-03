@@ -5,9 +5,9 @@
 {% endblock title %}
 
 {% block content %}
-<h2>{{ problem_id }}: {{ problem.name }}</h2><span class=green>Time Limit: </span>{{ problem.time_limitation }}&nbsp;&nbsp;<span class=green>Memory Limit: </span>{{ problem.memory_limitation }}<br><span class=green>Submit: </span>{{ submit }}&nbsp;&nbsp;<span class=green>Solved: </span>{{ solved }}<br>[<a href='{% url 'submit' problem_id %}'>Submit</a>][<a href='problemstatus.php?id=1000'>Status</a>][<a href='bbs.php?id=1000'>Discuss</a>]</center>{% autoescape off %}<h2>Description</h2><div class=content>{{ problem.description }}</div><h2>Input</h2><div class=content>{{ problem.input }}</div><h2>Output</h2><div class=content>{{ problem.output }}</div><h2>Sample Input</h2>
+<h2>{{ problem_id }}: {{ problem.name }}</h2><span class=green>Time Limit: </span>{{ problem.time_limitation }}&nbsp;&nbsp;<span class=green>Memory Limit: </span>{{ problem.memory_limitation }}<br><span class=green>Submit: </span>{{ problem.submit }}&nbsp;&nbsp;<span class=green>Solved: </span>{{ problem.ac }}<br>[<a href='{% url 'submit' problem_id %}'>Submit</a>][<a href='{% url 'problemstatus' problem_id %}'>Status</a>][<a href='bbs.php?id=1000'>Discuss</a>]</center>{% autoescape off %}<h2>Description</h2><div class=content>{{ problem.description }}</div><h2>Input</h2><div class=content>{{ problem.input }}</div><h2>Output</h2><div class=content>{{ problem.output }}</div><h2>Sample Input</h2>
 			<div class=content><span class=sampledata>{{ problem.sample_input }}</span></div><h2>Sample Output</h2>
 			<div class=content><span class=sampledata>{{ problem.sample_output }}</span></div><h2>HINT</h2>
 			<div class=content><pre>{{ problem.hint }}</pre></div><h2>Source</h2>
-			<div class=content>{{ problem.source }}</div>{% endautoescape %}<center>[<a href='{% url 'submit' problem_id %}'>Submit</a>][<a href='problemstatus.php?id=1000'>Status</a>][<a href='bbs.php?id=1000'>Discuss</a>]
+			<div class=content>{{ problem.source }}</div>{% endautoescape %}<center>[<a href='{% url 'submit' problem_id %}'>Submit</a>][<a href='{% url 'problemstatus' problem_id %}'>Status</a>][<a href='bbs.php?id=1000'>Discuss</a>]
 {% endblock content %}

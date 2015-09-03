@@ -13,7 +13,10 @@ def index(request):
     return render(request, 'base.html', {})
 def show_problem(request, problem_id):
     problem = Problem.objects.get(pk=problem_id)
-    return render(request, 'problem.html', {'problem_id':problem_id,'problem':problem,'submit':0,'solved':0})
+    return render(request, 'problem.html', {'problem_id':problem_id,'problem':problem})
+def problemstatus(request, problem_id):
+    problem = Problem.objects.get(pk=problem_id)
+    return render(request, 'problemstatus.html', {'id':problem_id,'submit':problem.submit,'ac':problem.ac,'solved':problem.solved_by.get_queryset().count(),'tried':problem.tried_by.get_queryset().count()})
 def problem_set(request):
     offset = int(request.GET.get('offset','0'))
     limit = int(request.GET.get('limit',def_limit))
@@ -96,10 +99,19 @@ def status(request):
                 i.result=final_result
                 i.time=final_time
                 i.save()
+                i.problem.submit=i.problem.submit+1
+                if final_result==jresult.AC.value:
+                    i.problem.ac=i.problem.ac+1
+                i.problem.save()
                 if i.user:
-                    if (final_result==jresult.AC.value) and not i.user.solved_problems.get_queryset().filter(pk=i.problem.pk).exists():
-                        i.user.solved_problems.add(i.problem)
+                    if final_result==jresult.AC.value:
                         i.user.ac=i.user.ac+1
+                        if not i.user.solved_problems.get_queryset().filter(pk=i.problem.pk).exists():
+                            i.user.solved_problems.add(i.problem)
+                            i.user.ac_problems=i.user.ac_problems+1
+                    if not i.user.tried_problems.get_queryset().filter(pk=i.problem.pk).exists():
+                        i.user.tried_problems.add(i.problem)
+                        i.user.submit_problems=i.user.submit_problems+1
                     i.user.submit=i.user.submit+1
                     i.user.save()
     offset = int(request.GET.get('offset','0'))
@@ -110,13 +122,14 @@ def status(request):
 def userinfo(request, user_id):
     user=UserStatus.objects.get(pk=int(user_id))
     solved_problems=[x.pk for x in user.solved_problems.get_queryset()]
-    return render(request, 'userinfo.html', {'user_id':user_id,'username':user.get_name(),'nickname':user.get_nickname(),'ac':user.ac,'submit':user.submit,'solved_problems':solved_problems})
+    tried_problems=list({x.pk for x in user.tried_problems.get_queryset()}-set(solved_problems))
+    return render(request, 'userinfo.html', {'user_id':user_id,'username':user.get_name(),'nickname':user.get_nickname(),'ac':user.ac,'submit':user.submit,'ac_problems':user.ac_problems,'submit_problems':user.submit_problems,'solved_problems':solved_problems,'tried_problems':tried_problems})
 def ranklist(request):
     offset = int(request.GET.get('offset','0'))
     limit = int(request.GET.get('limit',def_limit))
     ranklist_all=UserStatus.objects.all().order_by('-ac','submit')
     ranklist_iter=ranklist_all[offset:offset+limit]
-    ranklist_list=[{'ranking':i+offset,'userid':x.pk,'username':x.get_name(),'nickname':x.get_nickname(),'ac':x.ac,'submit':x.submit,'ratio':'%.3f%%'%((100*x.ac/x.submit) if x.submit else 0)} for i, x in enumerate(ranklist_iter)]
+    ranklist_list=[{'ranking':i+offset,'userid':x.pk,'username':x.get_name(),'nickname':x.get_nickname(),'ac':x.ac_problems,'submit':x.submit_problems,'ratio':'%.3f%%'%((100*x.ac/x.submit) if x.submit else 0)} for i, x in enumerate(ranklist_iter)]
     pages=[(n*def_limit-def_limit,n*def_limit-def_limit+1,n*def_limit) for n in range(1,(ranklist_all.count()-1)//def_limit+2)]
     return render(request, 'ranklist.html', {'ranklist':ranklist_list,'pages':pages})
     

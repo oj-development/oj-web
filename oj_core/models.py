@@ -14,6 +14,8 @@ class Problem(models.Model):
     time_limitation = models.TextField(blank=True)
     hint = models.TextField(blank=True)
     source = models.TextField(blank=True)
+    submit=models.PositiveIntegerField(default=0)
+    ac=models.PositiveIntegerField(default=0)
     def __str__(self):
         return self.name
     __repr__ = __str__
@@ -39,7 +41,10 @@ class UserStatus(models.Model):
     user_id = models.PositiveIntegerField(primary_key=True)
     submit=models.PositiveIntegerField(default=0)
     ac=models.PositiveIntegerField(default=0)
-    solved_problems=models.ManyToManyField(Problem)
+    submit_problems=models.PositiveIntegerField(default=0)
+    ac_problems=models.PositiveIntegerField(default=0)
+    solved_problems=models.ManyToManyField(Problem, related_name='solved_by')
+    tried_problems=models.ManyToManyField(Problem, related_name='tried_by')
     def get_name(self):
         try:
             return User.objects.get(pk=self.user_id).username

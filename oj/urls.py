@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^$', 'oj_core.views.index', name='index'),
     url(r'^problem/(?P<problem_id>[^/]+)/$', 'oj_core.views.show_problem', name='problem'),
     url(r'^submit/(?P<problem_id>[^/]+)/$', 'oj_core.views.submit', name='submit'),
+    url(r'^problemstatus/(?P<problem_id>[^/]+)/$', 'oj_core.views.problemstatus', name='problemstatus'),
     url(r'^problemset/', 'oj_core.views.problem_set', name='problemset'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='login'), 

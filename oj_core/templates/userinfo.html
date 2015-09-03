@@ -8,7 +8,9 @@ User--{{ username }}
 User ID: {{ userid }}<br>
 Username: {{ username }}<br>
 Nickname: {{ nickname }}<br>
+Tried: {{ submit_problems }}<br>
+Solved: {{ ac_problems }}<br>
 Submit: {{ submit }}<br>
 AC: {{ ac }}<br>
-Solved: {% for i in solved_problems %}<a href='{% url 'problem' i %}'>{{ i }}</a> {% endfor %}
+Problems: {% for i in solved_problems %}<a href='{% url 'problem' i %}'>{{ i }}</a> {% endfor %}{% for i in tried_problems %}<s><a href='{% url 'problem' i %}'>{{ i }}</a></s> {% endfor %}
 {% endblock content %}

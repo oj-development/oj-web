@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+ 
+{% block title %}
+Problem {{ id }} Status
+{% endblock title %}
+
+{% block content %}
+Submit: {{ submit }}<br>
+User(Submit): {{ tried }}<br>
+User(Solved): {{ solved }}<br>
+AC: {{ ac }}<br>
+{% endblock content %}
