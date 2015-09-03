@@ -61,9 +61,14 @@ def submit(request, problem_id):
                 with open(os.path.join(settings.BASE_DIR,'data',data+'.json'), 'r') as f:
                     realdata=f.read()
                 s.send(realdata.encode('utf-8'))
-                record_hash=json.loads(s.recv(1048576).decode('utf-8'))[1]
-            else:
-                record_hash=judge_result[1]
+                judge_result=json.loads(s.recv(1048576).decode('utf-8'))
+                while judge_result[0]==4:
+                    if judge_result[1]==10:
+                        form = "error!" 
+                        return render(request, 'submitpage.html', {'form': form})
+                    s.send(b'')
+                    judge_result=json.loads(s.recv(1048576).decode('utf-8'))
+            record_hash=judge_result[1]
             s.close()
             new_result=Status()
             new_result.runid=uuid.UUID(record_hash)
@@ -74,7 +79,7 @@ def submit(request, problem_id):
             if request.user.is_authenticated():
                 new_result.user=UserStatus.objects.get_or_create(pk=request.user.id)[0]
             new_result.save()
-            form = record_hash
+            form = str(judge_result)
     else:
         form = SubmitPage()
     return render(request, 'submitpage.html', {'form': form})
