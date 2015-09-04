@@ -7,7 +7,9 @@ Submit Code
 {% block content %}
 <form method='post'>
 {% csrf_token %}
+<table>
 {{ form }}
-<input type="submit" value="提交">
+<tr><td><input type="submit" value="提交"></td></tr>
+</table>
 </form>
 {% endblock content %}
