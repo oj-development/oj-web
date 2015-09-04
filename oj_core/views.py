@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import *
-from .forms import RegisterPage, SubmitPage
+from .forms import *
 from datetime import datetime, timedelta, timezone
 from django.conf import settings
 import json, os, socket, uuid, threading
@@ -122,9 +122,28 @@ def status(request):
                     i.user.save()
     offset = int(request.GET.get('offset','0'))
     limit = int(request.GET.get('limit',def_limit))
-    status_iter = Status.objects.all()[offset:offset+limit]
+    form = StatusSearch(request.GET)
+    status_query=Status.objects.all()
+    param=''
+    if form.is_valid():
+        if form.cleaned_data['problem_id'] or ''!='':
+            status_query=status_query.filter(problem_id=form.cleaned_data['problem_id'])
+            param+='&problem_id='+form.cleaned_data['problem_id']
+        if form.cleaned_data['user_id'] or ''!='':
+            try:
+                status_query=status_query.filter(user_id=User.objects.get(username=form.cleaned_data['user_id']).id)
+            except Exception as e:
+                status_query=Status.objects.none()
+            param+='&user_id='+form.cleaned_data['user_id']
+        if form.cleaned_data['language'] or ''!='':
+            status_query=status_query.filter(language=form.cleaned_data['language'])
+            param+='&language='+form.cleaned_data['language']
+        if form.cleaned_data['result'] or ''!='':
+            status_query=status_query.filter(result=form.cleaned_data['result'])
+            param+='&result='+form.cleaned_data['result']
+    status_iter = status_query[offset:offset+limit]
     status_list=[{'id':x.pk,'userid':x.user.pk if x.user else 0,'username':x.user.get_name() if x.user else 'Anonymous','problem':x.problem.pk,'result':result_name[jresult(x.result)],'memory':x.memory,'memory':x.memory,'time':'%.0f' % (x.time*1000),'language':x.get_language_display(),'code_length':x.code_length,'submit_time':x.submit_time.astimezone(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')} for x in status_iter]
-    return render(request, 'status.html', {'status_list':status_list,'limit':limit,'prev_offset':max(offset-limit,0),'next_offset':offset+limit})
+    return render(request, 'status.html', {'form':form,'status_list':status_list,'limit':limit,'prev_offset':max(offset-limit,0),'next_offset':offset+limit,'param':param})
 def userinfo(request, user_id):
     user=UserStatus.objects.get(pk=int(user_id))
     solved_problems=[x.pk for x in user.solved_problems.get_queryset()]
