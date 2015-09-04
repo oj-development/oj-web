@@ -4,7 +4,7 @@ from .models import *
 from .forms import RegisterPage, SubmitPage
 from datetime import datetime, timedelta, timezone
 from django.conf import settings
-import json, os, socket, uuid
+import json, os, socket, uuid, threading
 from .result_name import *
 # Create your views here.
 def_limit=100
@@ -47,39 +47,40 @@ def registerpage(request):
     else:
         form = RegisterPage()
     return render(request, 'registerpage.html', {'form': form, 'error': error})
+def submit_async(problem_id,language,source,userid):
+    data=Problem.objects.get(pk=problem_id).data_set.get_queryset()[0].data_hash
+    data_send=json.dumps([1,[{"input":'',"output":'',"judgemode":7},[language,source],data]])
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(('127.0.0.1', 28522))
+    s.send(data_send.encode('utf-8'))
+    judge_result=json.loads(s.recv(1048576).decode('utf-8'))
+    if judge_result[0]==1:
+        with open(os.path.join(settings.BASE_DIR,'data',data+'.json'), 'r') as f:
+            realdata=f.read()
+        s.send(realdata.encode('utf-8'))
+        judge_result=json.loads(s.recv(1048576).decode('utf-8'))
+        while judge_result[0]==4:
+            if judge_result[1]==10:
+                print("error!")
+            s.send(b'')
+            judge_result=json.loads(s.recv(1048576).decode('utf-8'))
+    record_hash=judge_result[1]
+    s.close()
+    new_result=Status()
+    new_result.runid=uuid.UUID(record_hash)
+    new_result.language=language
+    new_result.code=source
+    new_result.code_length=len(source)
+    new_result.problem=Problem.objects.get(pk=problem_id)
+    if userid!=0:
+        new_result.user=UserStatus.objects.get_or_create(pk=userid)[0]
+    new_result.save()
 def submit(request, problem_id):
     if request.method == 'POST':
         form = SubmitPage(request.POST) 
         if form.is_valid():
-            data=Problem.objects.get(pk=problem_id).data_set.get_queryset()[0].data_hash
-            data_send=json.dumps([1,[{"input":'',"output":'',"judgemode":7},[form.cleaned_data['language'],form.cleaned_data['source']],data]])
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect(('127.0.0.1', 28522))
-            s.send(data_send.encode('utf-8'))
-            judge_result=json.loads(s.recv(1048576).decode('utf-8'))
-            if judge_result[0]==1:
-                with open(os.path.join(settings.BASE_DIR,'data',data+'.json'), 'r') as f:
-                    realdata=f.read()
-                s.send(realdata.encode('utf-8'))
-                judge_result=json.loads(s.recv(1048576).decode('utf-8'))
-                while judge_result[0]==4:
-                    if judge_result[1]==10:
-                        form = "error!" 
-                        return render(request, 'submitpage.html', {'form': form})
-                    s.send(b'')
-                    judge_result=json.loads(s.recv(1048576).decode('utf-8'))
-            record_hash=judge_result[1]
-            s.close()
-            new_result=Status()
-            new_result.runid=uuid.UUID(record_hash)
-            new_result.language=form.cleaned_data['language']
-            new_result.code=form.cleaned_data['source']
-            new_result.code_length=len(form.cleaned_data['source'])
-            new_result.problem=Problem.objects.get(pk=problem_id)
-            if request.user.is_authenticated():
-                new_result.user=UserStatus.objects.get_or_create(pk=request.user.id)[0]
-            new_result.save()
-            form = str(judge_result)
+            threading.Thread(target=submit_async,args=(problem_id,form.cleaned_data['language'],form.cleaned_data['source'],request.user.id if request.user.is_authenticated() else 0)).start()
+            form = "Done"
     else:
         form = SubmitPage()
     return render(request, 'submitpage.html', {'form': form})
