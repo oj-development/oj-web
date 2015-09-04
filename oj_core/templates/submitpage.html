@@ -1,10 +1,18 @@
 {% extends "base.html" %}
  
+{% block header %}
+<script src="/static/codemirror/codemirror.js"></script>
+<link rel="stylesheet" href="/static/codemirror/codemirror.css">
+<script src="/static/codemirror/pascal.js"></script>
+<script src="/static/codemirror/clike.js"></script>
+{% endblock header %}
+
 {% block title %}
 Submit Code
 {% endblock title %}
 
 {% block content %}
+
 <form method='post'>
 {% csrf_token %}
 <table>
@@ -13,3 +21,34 @@ Submit Code
 </table>
 </form>
 {% endblock content %}
+
+{% block footer %}
+<script>
+function mine() {
+    switch(language_select.val())
+    {
+    case "pas":
+        return "text/x-pascal";
+    case "c":
+        return "text/x-csrc";
+    case "cpp":
+        return "text/x-c++src";
+    };
+}
+function make_editor() {
+    	window.editor = CodeMirror.fromTextArea(document.getElementById('id_source'), {
+	    mode: mine(),
+	    smartIndent: true,
+	    lineNumbers: true,
+	  });
+    }
+function switch_editor() {
+    	window.editor.toTextArea()
+        make_editor()
+    }
+
+var language_select = $('#id_language');
+language_select.on('change', switch_editor);
+$(document).on('ready', make_editor);
+</script>
+{% endblock footer %}
